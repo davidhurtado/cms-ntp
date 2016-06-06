@@ -12,10 +12,20 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="index.php">Inicio</a></li>
-                <li><a href="#" class="gotoabout">Acerca</a></li>
-                <li><a href="#" class="gotoblog">Publicaciones</a></li> 
-                <li><a href="#" class="gotocontact">Contacto</a></li>
-                <li class="dropdown">
+                <?php
+                if (Yii::$app->controller->id == 'post') {
+                    ?>
+                    <li><a  href="<?= yii\helpers\Url::to('index.php?#about') ?>">Acerca</a></li>
+                    <li><a href="<?= yii\helpers\Url::to('index.php?#blog') ?>">Publicaciones</a></li> 
+                    <li><a href="<?= yii\helpers\Url::to('index.php?#bottom') ?>">Contacto</a></li>
+                    <?php
+                } else {
+                    ?>
+                    <li><a href="#" class="gotoabout">Acerca</a></li>
+                    <li><a href="#" class="gotoblog">Publicaciones</a></li> 
+                    <li><a href="#" class="gotocontact">Contacto</a></li>
+                    <?php } ?>
+                <!--li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Paginas <i class="icon-angle-down"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="career.html">Career</a></li>
@@ -27,7 +37,7 @@
                         <li><a href="privacy.html">Privacy Policy</a></li>
                         <li><a href="terms.html">Terms of Use</a></li>
                     </ul>
-                </li>
+                </li-->
             </ul>
         </div>
     </div>

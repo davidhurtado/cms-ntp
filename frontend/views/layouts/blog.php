@@ -8,9 +8,11 @@ use common\models\User;
 
 $posts = Post::find()->All();
 ?>
-<section id="blog" class="container">
+<div id="blog" style="margin-bottom: 50px"></div>
+<section  class="container">
+    <h1 class="center">PUBLICACIONES</h1>
     <div class="row">
-        <aside class="col-lg-12 col-lg-push-8">
+        <aside class="col-sm-4 col-sm-push-8">
             <div class="widget search">
                 <form role="form">
                     <div class="input-group">
@@ -22,7 +24,7 @@ $posts = Post::find()->All();
                 </form>
             </div><!--/.search-->
 
-            <div class="widget ads">
+            <!--div class="widget ads">
                 <div class="row">
                     <div class="col-xs-6">
                         <a href="#"><img class="img-responsive img-rounded" src="images/ads/ad1.png" alt=""></a>
@@ -42,7 +44,7 @@ $posts = Post::find()->All();
                         <a href="#"><img class="img-responsive img-rounded" src="images/ads/ad4.png" alt=""></a>
                     </div>
                 </div>
-            </div><!--/.ads-->     
+            </div--><!--/.ads-->     
 
             <div class="widget categories">
                 <h3>Blog Categories</h3>

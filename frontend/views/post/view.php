@@ -1,22 +1,21 @@
 <?php
-
+//use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\models\User;
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
-
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+AppAsset::register($this);
+$asset = frontend\assets\AppAsset::register($this);
+$baseUrl = $asset->baseUrl;
+$this->title = $model->titulo;
 ?>
 <section id="blog1"  class="container">
 <div class="post-view">
     <div class="row">
-        <h1><?= Html::encode($this->title) ?></h1>
-
-
-        <?=
+        <!--?=
         DetailView::widget([
             'model' => $model,
             'attributes' => [
@@ -27,25 +26,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'autor',
             ],
         ])
-        ?>
+        ?-->
        
             <div class="blog">
                 <div class="blog-item">
-                    <img class="img-responsive img-blog" src="images/blog/blog2.jpg" width="100%" alt="" />
+                    <?=Html::img($baseUrl.'/images/blog/upload/1.png',['class'=>'img-responsive img-blog' ])?>
                     <div class="blog-content">
-                        <h3>Duis sed odio sit amet nibh vulputate cursus</h3>
+                        <h3><?=$model->titulo?></h3>
                         <div class="entry-meta">
-                            <span><i class="icon-user"></i> <a href="#">John</a></span>
+                            <span><i class="icon-user"></i> <a href="#"><?=User::findOne(['id'=>$model->autor])->username?></a></span>
                             <span><i class="icon-folder-close"></i> <a href="#">Bootstrap</a></span>
-                            <span><i class="icon-calendar"></i> Sept 16th, 2012</span>
+                            <span><i class="icon-calendar"></i> <?=$model->fecha?></span>
                             <span><i class="icon-comment"></i> <a href="blog-item.html#comments">3 Comments</a></span>
                         </div>
-                        <p class="lead">Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate cursus a sit amet mauris. Morbi accumsan ipsum velit. Nam nec tellus a odio tincidunt auctor a ornare odio. Sed non  mauris vitae erat consequat auctor eu in elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
-
-                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
-
-                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-
+                        <p class="lead">
+                            <?=$model->descripcion?>
+                        </p>
                         <hr>
 
                         <div class="tags">
@@ -54,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         <p>&nbsp;</p>
 
-                        <div class="author well">
+                        <!--div class="author well">
                             <div class="media">
                                 <div class="pull-left">
                                     <img class="avatar img-thumbnail" src="images/blog/avatar.jpg" alt="">
@@ -66,9 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper.</p>
                                 </div>
                             </div>
-                        </div><!--/.author-->
+                        </div--><!--/.author-->
 
-                        <div id="comments">
+<!--                        <div id="comments">Comentarios
                             <div id="comments-list">
                                 <h3>3 Comments</h3>
                                 <div class="media">
@@ -96,9 +92,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
                                                 </div>
                                             </div>
-                                        </div><!--/.media-->
+                                        </div>/.media
                                     </div>
-                                </div><!--/.media-->
+                                </div>/.media
                                 <div class="media">
                                     <div class="pull-left">
                                         <img class="avatar img-circle" src="images/blog/avatar2.png" alt="">
@@ -112,8 +108,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
                                         </div>
                                     </div>
-                                </div><!--/.media-->
-                            </div><!--/#comments-list-->  
+                                </div>/.media
+                            </div>/#comments-list  
 
                             <div id="comment-form">
                                 <h3>Leave a comment</h3>
@@ -133,8 +129,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                     <button type="submit" class="btn btn-danger btn-lg">Submit Comment</button>
                                 </form>
-                            </div><!--/#comment-form-->
-                        </div><!--/#comments-->
+                            </div>/#comment-form
+                        </div>/#comments-->
                     </div>
                 </div><!--/.blog-item-->
             </div>

@@ -4,8 +4,8 @@
 
 $this->title = 'Nuevas Técnicas de Pogramación | Ecuador';
 ?>
-
-<div class="site-index">
+<div id="about" style="margin-bottom: 100px"></div>
+<div class="site-index"  >
 
     <div class="jumbotron">
         <h1>DESCRIPCIÓN DEL CURSO</h1>

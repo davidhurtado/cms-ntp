@@ -6,6 +6,8 @@ use backend\assets\AppAsset;
 use yii\helpers\Html;
 use common\widgets\Alert;
 
+
+
 /*
   use yii\bootstrap\Nav;
   use yii\bootstrap\NavBar; */
@@ -32,13 +34,6 @@ $baseUrl = $asset->baseUrl;
                 <?= $this->render('header.php', ['baseUrl' => $baseUrl]) ?>
                 <?= $this->render('leftmenu.php', ['baseUrl' => $baseUrl]) ?>
                 <div class="content-wrapper">
-                    <section class="content-header">
-                        <?=
-                        Breadcrumbs::widget([
-                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                        ])
-                        ?>
-                    </section>
                 <?php } ?>
                 <section class="content container col-lg-12">
                     <?= Alert::widget() ?>

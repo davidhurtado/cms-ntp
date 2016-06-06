@@ -41,7 +41,7 @@ $baseUrl = $asset->baseUrl;
         <?= $content ?> 
             </section>
          <?php if(Yii::$app->controller->id=='site'){?>
-        <?= $this->render('servicios.php', ['baseUrl' => $baseUrl]) ?>
+        <!--?= $this->render('servicios.php', ['baseUrl' => $baseUrl]) ?-->
         <?=$this->render('blog.php', ['baseUrl' => $baseUrl]) ?>
         <?= $this->render('bottom.php', ['baseUrl' => $baseUrl]) ?>
         <?php }?>
