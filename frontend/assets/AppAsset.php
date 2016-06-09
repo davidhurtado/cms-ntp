@@ -18,7 +18,7 @@ class AppAsset extends AssetBundle
     public $sourcePath = '@bower/frontend/';
     public $css = [
         //'css/site.css',
-        'css/bootstrap.min.css',
+       // 'css/bootstrap.min.css',
     'css/font-awesome.min.css',
     'css/prettyPhoto.css',
     'css/animate.css',
@@ -28,15 +28,16 @@ class AppAsset extends AssetBundle
 
     ];
     public $js = [
+        //'js/coloresCode.js',
         'js/jquery.js',
         'js/bootstrap.min.js',
         'js/jquery.prettyPhoto.js',
         'js/main.js'
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        //'yii\bootstrap\BootstrapAsset',
-        //'yii\bootstrap\BootstrapPluginAsset',
+        //'yii\web\YiiAsset',
+       // 'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
     ];
 }
 /*class AppAsset extends AssetBundle

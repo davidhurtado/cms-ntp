@@ -8,17 +8,17 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\data\Pagination;
 
 /**
  * PostController implements the CRUD actions for Post model.
  */
-class PostController extends Controller {
-
+class PostController extends Controller
+{
     /**
      * @inheritdoc
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -33,53 +33,15 @@ class PostController extends Controller {
      * Lists all Post models.
      * @return mixed
      */
-    public function actionIndex($id=null) {
-        $render = 'index';
-
-        if ($id) {
-            $postType = $this->findModel($id);
-        }/* elseif ($slug) {
-            $postType = $this->findPostTypeBySlug($slug);
-        }*/ else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-
-        $query = new ActiveDataProvider([
-          'query' => Post::find(),
-          ]);
-                /*$postType->getPosts()
-                ->andWhere(['status' => 'publish'])
-                ->andWhere(['<=', 'date', date('Y-m-d H:i:s')])
-                ->orderBy(['id' => SORT_DESC]);*/
-        $countQuery = clone $query;
-        $pages = new Pagination([
-            'totalCount' => $countQuery->count(),
-            //'pageSize' => Option::get('posts_per_page'),
+    public function actionIndex()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Post::find(),
         ]);
-        $query->offset($pages->offset)->limit($pages->limit);
-        $posts = $query->all();
 
-        if ($posts) {
-            if (is_file($this->view->theme->basePath . '/post/index-' . $postType->name . '.php')) {
-                $render = 'index-' . $postType->name . '.php';
-            }
-
-            return $this->render($render, [
-                        'postType' => $postType,
-                        'posts' => $posts,
-                        'pages' => $pages,
-            ]);
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-
-        /*  $dataProvider = new ActiveDataProvider([
-          'query' => Post::find(),
-          ]);
-
-          return $this->render('index', [
-          'dataProvider' => $dataProvider,
-          ]); */
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -87,9 +49,10 @@ class PostController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -98,14 +61,15 @@ class PostController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new Post();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }
@@ -116,14 +80,15 @@ class PostController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }
@@ -134,7 +99,8 @@ class PostController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -147,17 +113,12 @@ class PostController extends Controller {
      * @return Post the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
+    protected function findModel($id)
+    {
         if (($model = Post::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    public function relations() {
-    return array(
-        'user' => array(self::BELONGS_TO, 'User', 'id')
-    );
-}
-
 }

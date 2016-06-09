@@ -12,6 +12,10 @@ use Yii;
  * @property string $descripcion
  * @property string $fecha
  * @property integer $autor
+ * @property integer $visible
+ *
+ * @property Categorias $categorias
+ * @property Etiquetas $etiquetas
  */
 class Post extends \yii\db\ActiveRecord
 {
@@ -29,13 +33,12 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['titulo', 'descripcion'], 'required'],
+            [['titulo', 'descripcion', 'visible'], 'required'],
             [['descripcion'], 'string'],
             [['fecha'], 'safe'],
-            [['autor'], 'integer',],
+            [['autor', 'visible'], 'integer'],
             [['titulo'], 'string', 'max' => 100],
             [['titulo'], 'unique'],
-            [['visible'], 'boolean'],
         ];
     }
 
@@ -52,5 +55,21 @@ class Post extends \yii\db\ActiveRecord
             'autor' => 'Autor',
             'visible' => 'Visible',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategorias()
+    {
+        return $this->hasOne(Categorias::className(), ['id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getEtiquetas()
+    {
+        return $this->hasOne(Etiquetas::className(), ['id' => 'id']);
     }
 }

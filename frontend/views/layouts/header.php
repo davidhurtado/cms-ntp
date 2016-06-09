@@ -1,3 +1,8 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+?>
+
 <header class="navbar navbar-inverse navbar-fixed-top wet-asphalt" role="banner">
     <div class="container">
         <div class="navbar-header">
@@ -17,14 +22,21 @@
                     ?>
                     <li><a  href="<?= yii\helpers\Url::to('index.php?#about') ?>">Acerca</a></li>
                     <li><a href="<?= yii\helpers\Url::to('index.php?#blog') ?>">Publicaciones</a></li> 
-                    <li><a href="<?= yii\helpers\Url::to('index.php?#bottom') ?>">Contacto</a></li>
                     <?php
                 } else {
                     ?>
                     <li><a href="#" class="gotoabout">Acerca</a></li>
                     <li><a href="#" class="gotoblog">Publicaciones</a></li> 
-                    <li><a href="#" class="gotocontact">Contacto</a></li>
                     <?php } ?>
+                <li><?= Html::a('Contacto', '#', [
+            'id' => 'actividad',
+            'data-toggle' => 'modal',
+            'data-target' => '#contacto',
+            'data-url' => Url::to(['site/contact']),
+            'data-pjax' => '0',
+        ]); ?>
+
+                </li>
                 <!--li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Paginas <i class="icon-angle-down"></i></a>
                     <ul class="dropdown-menu">

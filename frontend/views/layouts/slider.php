@@ -7,9 +7,10 @@ $frase = 'La Open Web ofrece increíbles oportunidades para los desarrolladores'
             <li data-target="#main-slider" data-slide-to="0" class="active"></li>
             <li data-target="#main-slider" data-slide-to="1"></li>
             <li data-target="#main-slider" data-slide-to="2"></li>
+            <li data-target="#main-slider" data-slide-to="3"></li>
         </ol>
         <div class="carousel-inner">
-            <div class="item active" style="background-image: url(<?= $baseUrl ?>/images/slider/1.png)">
+            <div class="item active" style="background-image: url(images/slider/main.jpg)">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
@@ -21,7 +22,19 @@ $frase = 'La Open Web ofrece increíbles oportunidades para los desarrolladores'
                     </div>
                 </div>
             </div><!--/.item-->
-            <div class="item" style="background-image: url(<?= $baseUrl ?>/images/slider/2.jpg)">
+            <div class="item" style="background-image: url(images/slider/1.png)">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="carousel-content centered">
+                                <h2 class="boxed animation animated-item-1">El mundo al alcance de tus manos con prioridades</h2>
+                                <p class="boxed animation animated-item-2">No dejes para mañana lo que puedas programar hoy.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--/.item-->
+            <div class="item" style="background-image: url(images/slider/2.jpg)">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12">
@@ -35,7 +48,7 @@ $frase = 'La Open Web ofrece increíbles oportunidades para los desarrolladores'
                     </div>
                 </div>
             </div><!--/.item-->
-            <div class="item" style="background-image: url(<?= $baseUrl ?>/images/slider/3.png)">
+            <div class="item" style="background-image: url(images/slider/3.png)">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-6">

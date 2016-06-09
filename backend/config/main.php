@@ -1,7 +1,9 @@
 <?php
-
 $params = array_merge(
-        require(__DIR__ . '/../../common/config/params.php'), require(__DIR__ . '/../../common/config/params-local.php'), require(__DIR__ . '/params.php'), require(__DIR__ . '/params-local.php')
+    require(__DIR__ . '/../../common/config/params.php'),
+    require(__DIR__ . '/../../common/config/params-local.php'),
+    require(__DIR__ . '/params.php'),
+    require(__DIR__ . '/params-local.php')
 );
 
 return [
@@ -9,24 +11,12 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [
-        'user' => [
-            // following line will restrict access to profile, recovery, registration and settings controllers from backend
-            'as backend' => 'dektrium\user\filters\BackendFilter',
-            'controllers' => [!'settings'],
-            'adminPermission'=>'admin',
-        ],
-
-    ],
+    'modules' => [],
     'components' => [
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-        ],
-        /* 'user' => [
-          'identityClass' => 'common\models\User',
-          'enableAutoLogin' => true,
-          ], */
-        
+        /*'user' => [
+            'identityClass' => 'common\models\User',
+            'enableAutoLogin' => true,
+        ],*/
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -40,19 +30,39 @@ return [
             'errorAction' => 'site/error',
         ],
         /*
-          'urlManager' => [
-          'enablePrettyUrl' => true,
-          'showScriptName' => false,
-          'rules' => [
-          ],
-          ],
-         */
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+            ],
+        ],
+        */
+        'view' => [
+         'theme' => [
+             'pathMap' => [
+                '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-app'
+             ],
+         ],
+    ],
+ 'assetManager' => [
+        'bundles' => [
+            'dmstr\web\AdminLteAsset' => [
+                'skin' => 'skin-black',
+            ],
+        ],
+    ],
     ],
     'params' => $params,
-        /* 'view' => [
-          'theme' => [
-          'pathMap' => ['@app/views' => '@app/themes/adminlte'],
-          'baseUrl' => '@web/themes/adminlte',
-          ],
-          ], */
+    'modules' => [
+    'user' => [
+        // following line will restrict access to admin controller from frontend application
+        'as frontend' => 'dektrium\user\filters\FrontendFilter',
+            'controllers'=>[!'profile', !'recovery', !'registration' , !'settings',!'admin']
+    ],
+        'rbac' => [
+        'class' => 'dektrium\rbac\Module',
+        'adminPermission'=>['admin'],
+    ],
+    'redactor' => 'yii\redactor\RedactorModule',
+],
 ];

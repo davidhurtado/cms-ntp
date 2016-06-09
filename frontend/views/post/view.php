@@ -12,29 +12,21 @@ $asset = frontend\assets\AppAsset::register($this);
 $baseUrl = $asset->baseUrl;
 $this->title = $model->titulo;
 ?>
-<section id="blog1"  class="container">
+<div id="blog" style="margin-bottom: 50px"></div>
+<section  class="container">
+    <div class="row">
+    <?=$this->render('../layouts/rightblog');?> 
+
+<div class="col-sm-8 col-sm-pull-4">
 <div class="post-view">
     <div class="row">
-        <!--?=
-        DetailView::widget([
-            'model' => $model,
-            'attributes' => [
-                'id',
-                'titulo',
-                'descripcion:ntext',
-                'fecha',
-                'autor',
-            ],
-        ])
-        ?-->
-       
             <div class="blog">
                 <div class="blog-item">
-                    <?=Html::img($baseUrl.'/images/blog/upload/1.png',['class'=>'img-responsive img-blog' ])?>
+                    <!--?=Html::img($baseUrl.'/images/blog/upload/1.png',['class'=>'img-responsive img-blog' ])?-->
                     <div class="blog-content">
                         <h3><?=$model->titulo?></h3>
                         <div class="entry-meta">
-                            <span><i class="icon-user"></i> <a href="#"><?=User::findOne(['id'=>$model->autor])->username?></a></span>
+                            <span><i class="icon-user"></i><?= Html::a(User::findOne(['id' => $model->autor])->username, ['/user/profile/show', 'id' => $model->autor]); ?></a></span>
                             <span><i class="icon-folder-close"></i> <a href="#">Bootstrap</a></span>
                             <span><i class="icon-calendar"></i> <?=$model->fecha?></span>
                             <span><i class="icon-comment"></i> <a href="blog-item.html#comments">3 Comments</a></span>
@@ -136,4 +128,6 @@ $this->title = $model->titulo;
             </div>
         </div>
 </div>
-</section><!--/#blog-->
+</div>
+</div>
+</section>

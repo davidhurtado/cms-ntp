@@ -12,7 +12,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
-       /* 'user' => [
+        /*'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
         ],*/
@@ -42,7 +42,6 @@ return [
     'user' => [
         // following line will restrict access to admin controller from frontend application
         'as frontend' => 'dektrium\user\filters\FrontendFilter',
-        'controllers'=>[!'settings'],
     ],
 ],
 ];

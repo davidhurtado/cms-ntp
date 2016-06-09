@@ -18,8 +18,8 @@ use yii\widgets\ActiveForm;
 <?= $form->field($model, 'descripcion')->widget(\yii\redactor\widgets\Redactor::className(), [
     'clientOptions' => [
         'imageManagerJson' => ['/redactor/upload/image-json'],
-        'imageUpload' => ['/redactor/upload/image'],
-        'fileUpload' => ['/redactor/upload/file'],
+        'imageUpload' => ['/uploads'],
+        'fileUpload' => ['/uploads'],
         'lang' => 'es',
         'plugins' => ['clips', 'fontcolor','imagemanager']
     ]

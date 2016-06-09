@@ -9,11 +9,14 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use frontend\models\Post;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+use yii\bootstrap\Modal;
+use frontend\models\ContactForm;
 
 AppAsset::register($this);
 $asset = frontend\assets\AppAsset::register($this);
 $baseUrl = $asset->baseUrl;
-
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -29,21 +32,13 @@ $baseUrl = $asset->baseUrl;
         <?php $this->beginBody() ?>
 
         <?= $this->render('header.php', ['baseUrl' => $baseUrl]) ?>
-        <?php if(Yii::$app->controller->id=='site'){?>
+        <?php if(Yii::$app->controller->id=='site' && Yii::$app->controller->action->id!='error'){?>
         <?= $this->render('slider.php', ['baseUrl' => $baseUrl]) ?>
-        <?=
-        Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ])
-                ?>
         <?php }?>
-        <section id="about">
         <?= $content ?> 
-            </section>
-         <?php if(Yii::$app->controller->id=='site'){?>
+         <?php if(Yii::$app->controller->id=='site' && Yii::$app->controller->action->id!='error'){?>
         <!--?= $this->render('servicios.php', ['baseUrl' => $baseUrl]) ?-->
         <?=$this->render('blog.php', ['baseUrl' => $baseUrl]) ?>
-        <?= $this->render('bottom.php', ['baseUrl' => $baseUrl]) ?>
         <?php }?>
         <?= $this->render('footer.php', ['baseUrl' => $baseUrl]) ?>
         
@@ -51,7 +46,44 @@ $baseUrl = $asset->baseUrl;
         <div class="container">
 
         </div>-->
-        <?php $this->endBody() ?>
+
+        <?php
+        $model = new ContactForm();
+Modal::begin([
+    'header' => '<h2>Contacto</h2>',
+    'id'=> 'contacto',
+    'size' => 'modal-lg',
+]);
+$form = ActiveForm::begin();
+include('../views/site/contact.php');
+?>
+
+<!--?=$this->render('../site/contact.php', ['baseUrl' => $baseUrl]) ?-->
+<?php
+ActiveForm::end();
+$this->registerJs(
+    "$(document).on('click', '#enviar', (function() {
+        $.get(
+            $(this).data('url'),
+            function (data) {
+                $('.modal-body').html(data);
+                $('#modal').modal();
+            }
+        );
+    }));"
+);
+Modal::begin([
+    'id' => 'modal',
+    'header' => '<h4 class="modal-title">Complete</h4>',
+    'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Cerrar</a>',
+]);
+ 
+echo "<div class='well'></div>";
+ 
+Modal::end();
+Modal::end();
+        ?>
+                <?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage() ?>
