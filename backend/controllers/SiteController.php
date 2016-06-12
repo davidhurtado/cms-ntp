@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use dektrium\user\filters\AccessRule;
 
 /**
  * Site controller
@@ -17,7 +18,34 @@ class SiteController extends Controller
      */
     public function behaviors()
     {
-        return [
+       /*  return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'ruleConfig' => [
+                    'class' => AccessRule::className(),
+                ],
+                'rules' => [
+                    [
+                        'actions' => ['create','index','user','admin','logout'],
+                        'allow' => true,
+                        'roles' => ['admin','creador'],
+                    ],
+                    [
+                        'actions' => ['view', 'search','index','user','admin','logout'],
+                        'allow' => true,
+                        'roles' => ['?', '@', 'admin'],
+                    ],
+                ],
+            ],
+             'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
+                ],
+            ],
+        ];*/
+
+       return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
@@ -26,7 +54,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index','rbac','permission','index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
@@ -15,11 +16,10 @@ return [
         'enableUnconfirmedLogin' => true,
         'confirmWithin' => 21600,
         'cost' => 12,
-        'admins' => ['admin']
+        //'admins' => ['admin','marc'],
     ],
     'rbac' => [
         'class' => 'dektrium\rbac\Module',
-        'adminPermission'=>['admin'],
     ],
 ],
 ];

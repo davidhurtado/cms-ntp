@@ -27,9 +27,9 @@ class PostController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'index', 'view','delete'],
+                        'actions' => ['create', 'update', 'index', 'view', 'delete'],
                         'allow' => true,
-                        'roles' => ['@','autor'],
+                        'roles' => ['@', 'autor'],
                     ],
                 ],
             ],
@@ -58,6 +58,9 @@ class PostController extends Controller {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 8,
+            ],
         ]);
         return $this->render('index', [
                     'dataProvider' => $dataProvider,
@@ -107,7 +110,7 @@ class PostController extends Controller {
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            if (Yii::$app->user->can('admin')||Yii::$app->user->can('superadmin')) {
+            if (Yii::$app->user->can('admin') || Yii::$app->user->can('superadmin')) {
                 return $this->render('update', [
                             'model' => $model,
                 ]);
@@ -127,8 +130,23 @@ class PostController extends Controller {
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    public function actionProcessSelected() {
+        if (isset($_POST['keylist'])) {
+            $keys = \yii\helpers\Json::decode($_POST['keylist']);
+            foreach ($_POST['keylist'] as $id) {
+                actionDelete($id);
+            }
+        }
+    }
+
+    public function actionDelete($id=0) {
+        if (isset($_REQUEST['keylist'])) {
+            $keys = \yii\helpers\Json::decode($_REQUEST['keylist']);
+            foreach ($_REQUEST['keylist'] as $id) {
+                $this->findModel($id)->delete();
+            }
+        }
+        // $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

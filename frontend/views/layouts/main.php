@@ -32,37 +32,55 @@ $baseUrl = $asset->baseUrl;
         <?php $this->beginBody() ?>
 
         <?= $this->render('header.php', ['baseUrl' => $baseUrl]) ?>
-        <?php if(Yii::$app->controller->id=='site' && Yii::$app->controller->action->id!='error'){?>
-        <?= $this->render('slider.php', ['baseUrl' => $baseUrl]) ?>
-        <?php }?>
-        <?= $content ?> 
-         <?php if(Yii::$app->controller->id=='site' && Yii::$app->controller->action->id!='error'){?>
-        <!--?= $this->render('servicios.php', ['baseUrl' => $baseUrl]) ?-->
-        <?=$this->render('blog.php', ['baseUrl' => $baseUrl]) ?>
-        <?php }?>
-        <?= $this->render('footer.php', ['baseUrl' => $baseUrl]) ?>
-        
-<!--        <div class="control-sidebar-bg"></div>
-        <div class="container">
+        <?php if (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'error') { ?>
+            <?= $this->render('slider.php', ['baseUrl' => $baseUrl]) ?>
+        <?php } ?>
+        <?php if (Yii::$app->controller->id == 'profile') {
+            ?>
+            <div class=" jumbotron col-lg-12 col-sm-12 col-md-12 ">
+                <div class="well well-sm">
+                    <div class="row">
+                        <?php
+                    }
+                    ?>
+                    <?= $content ?> 
 
-        </div>-->
+                    <?php if (Yii::$app->controller->id == 'profile') {
+                        ?>
+                    </div> 
+                </div> 
+            </div>
+
+            <?php
+        }
+        ?>      
+        <?php if (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id != 'error') { ?>
+            <!--?= $this->render('servicios.php', ['baseUrl' => $baseUrl]) ?-->
+            <?= $this->render('blog.php', ['baseUrl' => $baseUrl]) ?>
+        <?php } ?>
+        <?= $this->render('footer.php', ['baseUrl' => $baseUrl]) ?>
+
+        <!--        <div class="control-sidebar-bg"></div>
+                <div class="container">
+        
+                </div>-->
 
         <?php
         $model = new ContactForm();
-Modal::begin([
-    'header' => '<h2>Contacto</h2>',
-    'id'=> 'contacto',
-    'size' => 'modal-lg',
-]);
-$form = ActiveForm::begin();
-include('../views/site/contact.php');
-?>
+        Modal::begin([
+            'header' => '<h2>Contacto</h2>',
+            'id' => 'contacto',
+            'size' => 'modal-lg',
+        ]);
+        $form = ActiveForm::begin();
+        include('../views/site/contact.php');
+        ?>
 
-<!--?=$this->render('../site/contact.php', ['baseUrl' => $baseUrl]) ?-->
-<?php
-ActiveForm::end();
-$this->registerJs(
-    "$(document).on('click', '#enviar', (function() {
+        <!--?=$this->render('../site/contact.php', ['baseUrl' => $baseUrl]) ?-->
+        <?php
+        ActiveForm::end();
+        $this->registerJs(
+                "$(document).on('click', '#enviar', (function() {
         $.get(
             $(this).data('url'),
             function (data) {
@@ -71,19 +89,19 @@ $this->registerJs(
             }
         );
     }));"
-);
-Modal::begin([
-    'id' => 'modal',
-    'header' => '<h4 class="modal-title">Complete</h4>',
-    'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Cerrar</a>',
-]);
- 
-echo "<div class='well'></div>";
- 
-Modal::end();
-Modal::end();
+        );
+        Modal::begin([
+            'id' => 'modal',
+            'header' => '<h4 class="modal-title">Complete</h4>',
+            'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">Cerrar</a>',
+        ]);
+
+        echo "<div class='well'></div>";
+
+        Modal::end();
+        Modal::end();
         ?>
-                <?php $this->endBody() ?>
+        <?php $this->endBody() ?>
     </body>
 </html>
 <?php $this->endPage() ?>

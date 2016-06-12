@@ -47,7 +47,7 @@ return [
  'assetManager' => [
         'bundles' => [
             'dmstr\web\AdminLteAsset' => [
-                'skin' => 'skin-black',
+                'skin' => 'skin-blue',
             ],
         ],
     ],
@@ -56,12 +56,14 @@ return [
     'modules' => [
     'user' => [
         // following line will restrict access to admin controller from frontend application
-        'as frontend' => 'dektrium\user\filters\FrontendFilter',
-            'controllers'=>[!'profile', !'recovery', !'registration' , !'settings',!'admin']
+        'as backend' => 'dektrium\user\filters\BackendFilter',
+        'controllers'=>[!'profile', !'recovery', !'registration' , !'settings',!'admin'],
+        'admins'=>['superadmin','marc']
+        
     ],
         'rbac' => [
         'class' => 'dektrium\rbac\Module',
-        'adminPermission'=>['admin'],
+        'adminPermission'=>['superadmin'],
     ],
     'redactor' => 'yii\redactor\RedactorModule',
 ],

@@ -12,12 +12,12 @@ $this->title = $model->titulo;
 <div class="post-view">
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Editar', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?=
-        Html::a('Delete', ['delete', 'id' => $model->id], [
+        Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Quieres eliminar este item?',
                 'method' => 'post',
             ],
         ])
@@ -28,7 +28,7 @@ $this->title = $model->titulo;
         <div class="row">
 
             <!-- Blog Post Content Column -->
-            <div class="col-lg-10">
+            <div class="col-lg-11">
 
                 <!-- Date/Time -->
                 <p><span class="glyphicon glyphicon-time"></span> Posteado en <?=$model->fecha?></p>

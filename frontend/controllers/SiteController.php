@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use Yii;
@@ -15,17 +16,15 @@ use frontend\models\ContactForm;
 use app\models\Post;
 use yii\data\Pagination;
 
-
 /**
  * Site controller
  */
-class SiteController extends Controller
-{
+class SiteController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -55,8 +54,7 @@ class SiteController extends Controller
     /**
      * @inheritdoc
      */
-    public function actions()
-    {
+    public function actions() {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -73,19 +71,27 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionIndex()
-    {
-    $query = Post::find()->where(['visible' => 1])->orderBy(['fecha' => SORT_DESC]);
-    $countQuery = clone $query;
-    $pages = new Pagination([ 'defaultPageSize' => 2,'totalCount' => $countQuery->count()]);
-    $model = $query->offset($pages->offset)
-        ->limit($pages->limit)
-        ->all();
-        Yii::$app->params['paginas']=$pages;
-        Yii::$app->params['model']=$model;
-    return $this->render('index', [
-         'model' => $model,
-    ]);
+    public function actionIndex() {
+        $query = Post::find()->where(['visible' => 1])->orderBy(['fecha' => SORT_DESC]);
+        if(isset($_GET['busqueda'])){
+          $query = Post::find()->where(['visible' => 1])
+                  ->andFilterWhere(['like', 'titulo', $_GET['busqueda']])
+                  ->orFilterWhere(['like', 'descripcion', $_GET['busqueda']])
+                  //->andFilterWhere(['like', 'autor', $_GET['busqueda']])
+                  ->orderBy(['fecha' => SORT_DESC]);
+        }
+        
+       // $query = Post::find()->where(['visible' => 1])->orderBy(['fecha' => SORT_DESC]);
+        $countQuery = clone $query;
+        $pages = new Pagination([ 'defaultPageSize' => 2, 'totalCount' => $countQuery->count()]);
+        $model = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();
+        Yii::$app->params['paginas'] = $pages;
+        Yii::$app->params['modelPost'] = $model;
+        return $this->render('index', [
+                    'model' => $model,
+        ]);
     }
 
     /**
@@ -93,8 +99,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionLogin()
-    {
+    public function actionLogin() {
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -104,7 +109,7 @@ class SiteController extends Controller
             return $this->goBack();
         } else {
             return $this->render('login', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -114,8 +119,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionLogout()
-    {
+    public function actionLogout() {
         Yii::$app->user->logout();
 
         return $this->goHome();
@@ -126,40 +130,58 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionContact($submit = false)
-    {
-        //$model = new ContactForm();
-        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && $submit == false) {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return ActiveForm::validate($model);
-    }
-    if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                //Yii::$app->session->setFlash('success', 'Gracias por contactarte conmigo, te escribiré pronto.');
-                            return [
-                'message' => '¡Gracias por contactarte conmigo, te escribiré pronto.!',
-            ];
+    public function actionContact($submit = false) {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post())) {
+            $success = false;
+            $error = [];
+            if ($model->contact(Yii::$app->params['adminEmail'])) {
+                $success = true;
             } else {
-                //Yii::$app->session->setFlash('error', 'Hubo un error al enviar, intenta de nuevo.');
-                Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
+                $error = $model->getErrors();       //get validation error messages
             }
-           // return $this->refresh();
-        } else { 
-        return $this->renderAjax('contact', [
-        'model' => $model,
-    ]);
+            header('Cache-Control: no-cache, must-revalidate');
+            header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            header('Content-type: application/json');
+            echo json_encode(['success' => $success, 'error' => $error]);
+
+            Yii::$app->end();
+        } else {
+            return $this->render('contact', [
+                        'model' => $model,
+            ]);
+        }
+        /* //$model = new ContactForm();
+          if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && $submit == false) {
+          Yii::$app->response->format = Response::FORMAT_JSON;
+          return ActiveForm::validate($model);
+          }
+          if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+          if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+          Yii::$app->response->format = Response::FORMAT_JSON;
+          //Yii::$app->session->setFlash('success', 'Gracias por contactarte conmigo, te escribiré pronto.');
+          return [
+          'message' => '¡Gracias por contactarte conmigo, te escribiré pronto.!',
+          ];
+          } else {
+          //Yii::$app->session->setFlash('error', 'Hubo un error al enviar, intenta de nuevo.');
+          Yii::$app->response->format = Response::FORMAT_JSON;
+          return ActiveForm::validate($model);
+          }
+          // return $this->refresh();
+          } else {
+          return $this->renderAjax('contact', [
+          'model' => $model,
+          ]);
+          } */
     }
-}
 
     /**
      * Displays about page.
      *
      * @return mixed
      */
-    public function actionAbout()
-    {
+    public function actionAbout() {
         return $this->render('about');
     }
 
@@ -168,8 +190,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionSignup()
-    {
+    public function actionSignup() {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -180,7 +201,7 @@ class SiteController extends Controller
         }
 
         return $this->render('signup', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -189,8 +210,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionRequestPasswordReset()
-    {
+    public function actionRequestPasswordReset() {
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -203,7 +223,7 @@ class SiteController extends Controller
         }
 
         return $this->render('requestPasswordResetToken', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -214,8 +234,7 @@ class SiteController extends Controller
      * @return mixed
      * @throws BadRequestHttpException
      */
-    public function actionResetPassword($token)
-    {
+    public function actionResetPassword($token) {
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidParamException $e) {
@@ -229,7 +248,8 @@ class SiteController extends Controller
         }
 
         return $this->render('resetPassword', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
+
 }

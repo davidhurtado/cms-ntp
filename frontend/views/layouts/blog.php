@@ -17,10 +17,10 @@ use yii\widgets\Pjax;
             <div class="blog">
                 <div class="archive site-index">
 
-                    <?php if (Yii::$app->params['model']): ?>
+                    <?php if (Yii::$app->params['modelPost']): ?>
                         <?php \yii\widgets\Pjax::begin(); ?>
                         <?=LinkPager::widget(['pagination' => Yii::$app->params['paginas'],]);?>
-                        <?php foreach (Yii::$app->params['model'] as $post): if($post['visible']):?>
+                        <?php foreach (Yii::$app->params['modelPost'] as $post):?>
                             <div class="blog-item">
                                 <div class="blog-content">
                                     <?= Html::a(Html::tag('h3', $post['titulo']), ['/post/view', 'id' => $post['id']]); ?></span>
@@ -32,23 +32,20 @@ use yii\widgets\Pjax;
                                         <span><i class="icon-calendar"></i> <?= $post['fecha'] ?></span>
                                         <span><i class="icon-comment"></i> <a href="blog-item.html#comments">3 Comments</a></span>
                                     </div>
-                                <p><?= substr($post['descripcion'],0,400)?></p><br>
+                                <p><?= substr(strip_tags($post['descripcion']),0,400)?></p><br>
                                     <?=Html::a('Leer más '.Html::tag('i','',['class'=>'icon-angle-right']), ['/post/view', 'id' => $post['id']],['class'=>'btn btn-default'])?>
                                 </div>
 
                             </div>
-                        <?php endif; endforeach ?>
+                        <?php endforeach ?>
                         <?=LinkPager::widget(['pagination' => Yii::$app->params['paginas'],]);?><!--/.pagination-->
                       <?php \yii\widgets\Pjax::end(); ?>
-                        <nav id="archive-pagination">
-
-
-                        </nav>
-                    <?php endif ?>
+                    <?php else : 
+                        echo '<div class="alert alert-danger center" role="alert">No se ha encontrado</div>';
+                    endif;
+                        ?>
 
                 </div>
-
-                
             </div>
         </div><!--/.col-md-8-->
     </div><!--/.row-->

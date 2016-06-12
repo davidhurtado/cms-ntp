@@ -29,14 +29,14 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         //'js/coloresCode.js',
-        'js/jquery.js',
+       // 'js/jquery.js',
         'js/bootstrap.min.js',
         'js/jquery.prettyPhoto.js',
         'js/main.js'
     ];
     public $depends = [
-        //'yii\web\YiiAsset',
-       // 'yii\bootstrap\BootstrapAsset',
+        'yii\web\YiiAsset',
+       'yii\bootstrap\BootstrapAsset',
         'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

@@ -1,3 +1,7 @@
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+?>
 <footer id="footer" class="midnight-blue">
     <div class="container">
         <div class="row">
@@ -11,14 +15,29 @@
                         ?>
                         <li><a  href="<?= yii\helpers\Url::to('index.php?#about') ?>">Acerca</a></li>
                         <li><a href="<?= yii\helpers\Url::to('index.php?#blog') ?>">Publicaciones</a></li> 
-                        <li><a href="<?= yii\helpers\Url::to('index.php?#bottom') ?>">Contacto</a></li>
                         <?php
                     } else {
+                        if (Yii::$app->controller->action->id == 'error') {
+                            ?>
+                            <li><a  href="<?= yii\helpers\Url::to('index.php?#about') ?>">Acerca</a></li>
+                            <li><a href="<?= yii\helpers\Url::to('index.php?#blog') ?>">Publicaciones</a></li> 
+                        <?php } else {
+                            ?>
+                            <li><a href="#" class="gotoabout">Acerca</a></li>
+                            <li><a href="#" class="gotoblog">Publicaciones</a></li> 
+                            <?php }
+                        } ?>
+                    <li><?=
+                        Html::a('Contacto', '#', [
+                            'id' => 'actividad',
+                            'data-toggle' => 'modal',
+                            'data-target' => '#contacto',
+                            'data-url' => Url::to(['site/contact']),
+                            'data-pjax' => '0',
+                        ]);
                         ?>
-                        <li><a href="#" class="gotoabout">Acerca</a></li>
-                        <li><a href="#" class="gotoblog">Publicaciones</a></li> 
-                        <li><a href="#" class="gotocontact">Contacto</a></li>
-                    <?php } ?>
+
+                    </li>
                     <li><a id="gototop" class="gototop" href="#"><i class="icon-chevron-up"></i></a></li><!--#gototop-->
 
                 </ul>

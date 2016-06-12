@@ -24,10 +24,14 @@ use yii\helpers\Url;
                     <li><a href="<?= yii\helpers\Url::to('index.php?#blog') ?>">Publicaciones</a></li> 
                     <?php
                 } else {
+                    if(Yii::$app->controller->action->id=='error'){?>
+                        <li><a  href="<?= yii\helpers\Url::to('index.php?#about') ?>">Acerca</a></li>
+                    <li><a href="<?= yii\helpers\Url::to('index.php?#blog') ?>">Publicaciones</a></li> 
+                    <?php }else{
                     ?>
                     <li><a href="#" class="gotoabout">Acerca</a></li>
                     <li><a href="#" class="gotoblog">Publicaciones</a></li> 
-                    <?php } ?>
+                    <?php }} ?>
                 <li><?= Html::a('Contacto', '#', [
             'id' => 'actividad',
             'data-toggle' => 'modal',

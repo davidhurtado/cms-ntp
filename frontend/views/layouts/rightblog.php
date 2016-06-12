@@ -1,10 +1,11 @@
-        <aside class="col-sm-4 col-sm-push-8">
+
+<aside class="col-sm-4 col-sm-push-8">
             <div class="widget search">
-                <form role="form">
+                <form role="form" action="index.php?#blog">
                     <div class="input-group">
-                        <input type="text" class="form-control" autocomplete="off" placeholder="Search">
+                        <input type="text" name="busqueda" class="form-control" autocomplete="off" placeholder="Buscar">
                         <span class="input-group-btn">
-                            <button class="btn btn-danger" type="button"><i class="icon-search"></i></button>
+                            <button class="btn btn-danger" type="submit"><i class="icon-search"></i></button>
                         </span>
                     </div>
                 </form>
