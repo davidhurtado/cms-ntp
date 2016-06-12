@@ -27,9 +27,9 @@ class PostController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'update', 'index', 'view', 'delete'],
+                        'actions' => ['create', 'update', 'index', 'view', 'delete', 'delete-multiple', 'show', 'hide'],
                         'allow' => true,
-                        'roles' => ['@', 'autor'],
+                        'roles' => ['admin', 'autor'],
                     ],
                 ],
             ],
@@ -37,6 +37,9 @@ class PostController extends Controller {
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'delete-multiple' => ['POST'],
+                    'show' => ['POST'],
+                    'hide' => ['POST'],
                 ],
             ],
         ];
@@ -48,6 +51,9 @@ class PostController extends Controller {
      */
     public function actionIndex() {
         $query;
+        if (!empty(Yii::$app->request->post('pk'))) {
+            die();
+        }
         if (Yii::$app->user->can('superadmin') || Yii::$app->user->can('admin')) {
             $query = Post::find();
         } else {
@@ -124,30 +130,52 @@ class PostController extends Controller {
         }
     }
 
+    public function actionShow() {
+
+        if (!isset($_POST['pk'])) {
+            return $this->redirect(['index']);
+        } else {
+            $pk = $_POST['pk'];
+            foreach ($pk as $id) {
+                Post::updateAll(['visible' => 1], 'id=' . $id);
+            }
+            return $this->redirect(['index']);
+        }
+    }
+
+    public function actionHide() {
+        if (!isset($_POST['pk'])) {
+            return $this->redirect(['index']);
+        } else {
+            $pk = $_POST['pk'];
+            foreach ($pk as $id) {
+                Post::updateAll(['visible' => 0], 'id=' . $id);
+            }
+            return $this->redirect(['index']);
+        }
+
+        //return $this->redirect(['index']);
+    }
+
     /**
      * Deletes an existing Post model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionProcessSelected() {
-        if (isset($_POST['keylist'])) {
-            $keys = \yii\helpers\Json::decode($_POST['keylist']);
-            foreach ($_POST['keylist'] as $id) {
-                actionDelete($id);
-            }
-        }
+    public function actionDeleteMultiple() {
+
+        $pk = $_POST['pk'];
+        //$pk=Yii::$app()->request->getPost('pk');
+        //if (empty($pk)) {
+        Post::deleteAll(['id' => $pk]);
+        //}
+        return $this->redirect(['index']);
     }
 
-    public function actionDelete($id=0) {
-        if (isset($_REQUEST['keylist'])) {
-            $keys = \yii\helpers\Json::decode($_REQUEST['keylist']);
-            foreach ($_REQUEST['keylist'] as $id) {
-                $this->findModel($id)->delete();
-            }
-        }
-        // $this->findModel($id)->delete();
+    public function actionDelete($id) {
 
+        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 

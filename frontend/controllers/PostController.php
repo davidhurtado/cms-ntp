@@ -46,9 +46,13 @@ class PostController extends Controller
 
     public function actionView($id)
     {
-        return $this->render('view', [
+        if(Post::findOne(['id'=>$id])->visible==1){
+                    return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+        }
+        return $this->goHome();
+
     }
 
 
